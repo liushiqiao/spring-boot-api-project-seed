@@ -1,8 +1,8 @@
-package ${basePackage}.controller;
-import ${basePackage}.entry.vo.Result;
-import ${basePackage}.core.ReponseEntry;
-import ${basePackage}.entry.model.${modelNameUpperCamel};
-import ${basePackage}.service.${modelNameUpperCamel}Service;
+package com.company.project.controller;
+import com.company.project.entry.vo.Result;
+import com.company.project.core.ReponseEntry;
+import com.company.project.entry.model.Company;
+import com.company.project.service.CompanyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,42 +14,42 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
-* Created by ${author} on ${date}.
+* Created by CodeGenerator on 2020/05/23.
 */
 @RestController
-@RequestMapping("${baseRequestMapping}")
-public class ${modelNameUpperCamel}Controller {
+@RequestMapping("/company")
+public class CompanyController {
     @Resource
-    private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
+    private CompanyService companyService;
 
     @PostMapping("/add")
-    public Result add(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
+    public Result add(Company company) {
+        companyService.save(company);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/delete")
     public Result delete(@RequestParam Integer id) {
-        ${modelNameLowerCamel}Service.deleteById(id);
+        companyService.deleteById(id);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/update")
-    public Result update(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.update(${modelNameLowerCamel});
+    public Result update(Company company) {
+        companyService.update(company);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/detail")
     public Result detail(@RequestParam Integer id) {
-        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
-        return ReponseEntry.genSuccessResult(${modelNameLowerCamel});
+        Company company = companyService.findById(id);
+        return ReponseEntry.genSuccessResult(company);
     }
 
     @PostMapping("/list")
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
-        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
+        List<Company> list = companyService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ReponseEntry.genSuccessResult(pageInfo);
     }

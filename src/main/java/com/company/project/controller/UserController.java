@@ -1,56 +1,66 @@
-package ${basePackage}.controller;
-import ${basePackage}.entry.vo.Result;
-import ${basePackage}.core.ReponseEntry;
-import ${basePackage}.entry.model.${modelNameUpperCamel};
-import ${basePackage}.service.${modelNameUpperCamel}Service;
+package com.company.project.controller;
+
+import com.company.project.core.ReponseEntry;
+import com.company.project.entry.model.User;
+import com.company.project.entry.vo.Result;
+import com.company.project.service.UserService;
+import com.company.project.utils.CookieUtils;
+import com.company.project.utils.JwtUtils;
+import com.company.project.utils.UserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
-* Created by ${author} on ${date}.
-*/
+ * Created by CodeGenerator on 2020/05/23.
+ */
 @RestController
-@RequestMapping("${baseRequestMapping}")
-public class ${modelNameUpperCamel}Controller {
+@RequestMapping("/user")
+public class UserController {
+
     @Resource
-    private ${modelNameUpperCamel}Service ${modelNameLowerCamel}Service;
+    private UserService userService;
 
     @PostMapping("/add")
-    public Result add(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.save(${modelNameLowerCamel});
+    public Result add(User user) {
+        userService.save(user);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/delete")
     public Result delete(@RequestParam Integer id) {
-        ${modelNameLowerCamel}Service.deleteById(id);
+        userService.deleteById(id);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/update")
-    public Result update(${modelNameUpperCamel} ${modelNameLowerCamel}) {
-        ${modelNameLowerCamel}Service.update(${modelNameLowerCamel});
+    public Result update(User user) {
+        userService.update(user);
         return ReponseEntry.genSuccessResult();
     }
 
     @PostMapping("/detail")
     public Result detail(@RequestParam Integer id) {
-        ${modelNameUpperCamel} ${modelNameLowerCamel} = ${modelNameLowerCamel}Service.findById(id);
-        return ReponseEntry.genSuccessResult(${modelNameLowerCamel});
+        User user = userService.findById(id);
+        return ReponseEntry.genSuccessResult(user);
     }
 
-    @PostMapping("/list")
+    @GetMapping("/list")
     public Result list(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "0") Integer size) {
         PageHelper.startPage(page, size);
-        List<${modelNameUpperCamel}> list = ${modelNameLowerCamel}Service.findAll();
+        List<User> list = userService.findAll();
         PageInfo pageInfo = new PageInfo(list);
         return ReponseEntry.genSuccessResult(pageInfo);
     }
+
 }
